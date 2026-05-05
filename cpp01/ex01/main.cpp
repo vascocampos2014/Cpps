@@ -3,40 +3,57 @@
 int main()
 {
     int choice;
-    int i = 0;
     int N;
+    std::string nbrHorde;
+    std::string line;
     Zombie *NewHorde = NULL;
     while(1)
     {
         std::cout << "[1] Created horde\n[2] Anounce horde\n[3] Exit\nOption: ";
-        std::cin >> choice;
-        if(choice == 1)
+        getline(std::cin, line);
+        std::istringstream iss(line);
+        char extra;
+        if ((iss >> choice) && !(iss >> extra) && (choice == 1 || choice == 2 || choice == 3))
         {
-            if(NewHorde != NULL)
+            if(choice == 1)
             {
-                delete[] NewHorde;
-                NewHorde = NULL;
-            }
-            std::cout << "\nhow many zombies you want the horde to have: ";
-            std::cin >> N;
-            NewHorde = zombieHorde(N,"test");
-        }
-        if(choice == 2)
-        {
-            if(NewHorde == NULL)
-                std::cout << "\nhorde not created yet press 1 first\n\n";
-            else
-            {
-                while(i < N)
+                if(NewHorde != NULL)
                 {
-                    NewHorde[i].announce();
-                    i++;
+                    delete[] NewHorde;
+                    NewHorde = NULL;
                 }
-                std::cout << std::endl << std::endl;
+                while (true)
+                {
+                    std::cout << "\nhow many zombies you want the horde to have: ";
+                    getline(std::cin, nbrHorde);
+                    if (!nbrHorde.empty() && nbrHorde.find_first_not_of("0123456789") == std::string::npos)
+                    {
+                        std::istringstream iss1(nbrHorde);
+                        iss1 >> N;
+                        break;
+                    }
+                    std::cout << "\nInput valid number: ";
+                }
+                NewHorde = zombieHorde(N,"test");
             }
+            if(choice == 2)
+            {
+                if(NewHorde == NULL)
+                    std::cout << "\nhorde not created yet press 1 first\n\n";
+                else
+                {
+                    for (int i = 0; i < N; ++i)
+                    {
+                        NewHorde[i].announce();
+                    }
+                    std::cout << std::endl << std::endl;
+                }
+            }
+            if(choice == 3)
+                break;
         }
-        if(choice == 3)
-            break;
+        else
+            std::cout << "Invalid choice type a number 1-3\n";
     }
     if(NewHorde != NULL)
         delete[] NewHorde;
