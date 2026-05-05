@@ -26,7 +26,7 @@ int main()
                 {
                     std::cout << "\nhow many zombies you want the horde to have: ";
                     getline(std::cin, nbrHorde);
-                    if (!nbrHorde.empty() && nbrHorde.find_first_not_of("0123456789") == std::string::npos)
+                    if (!nbrHorde.empty() && nbrHorde.find_first_not_of("0123456789") == std::string::npos) //npos means that the position was not found its a special constant meaning "not found", normally used with std::string
                     {
                         std::istringstream iss1(nbrHorde);
                         iss1 >> N;
