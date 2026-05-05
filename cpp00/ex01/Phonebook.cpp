@@ -141,7 +141,7 @@ int SearchPhonebook(Phonebook phonebook)
     if (!(std::cin >> index_to_display))
     {
         std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Invalid index." << std::endl;
         return(0);
     }

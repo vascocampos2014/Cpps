@@ -1,5 +1,7 @@
 #include "Zombie.hpp"
 #include <iostream>
+#include <sstream>
+#include <cstdlib>
 
 
 Zombie* newZombie(std::string name);
@@ -10,29 +12,39 @@ int choices()
     int choice;
     std::string name = "mario";
     Zombie* heapZombie = NULL; 
+    std::string line;
 
     while (true) 
     {
         std::cout << "\n[1] New Zombie\n[2] Random Chump\n[3] Announce & Delete\n[4] Exit\n\n";
-        std::cin >> choice;
-
-        if (choice == 1) {
-            heapZombie = newZombie(name);
-            std::cout << "\nCreated " << name << " on the heap.\n";
-        }
-        else if (choice == 2) {
-            randomChump("tiago");
-        }
-        else if (choice == 3) {
-            if (heapZombie != NULL) {
-                heapZombie->announce(); 
-                delete heapZombie;      
-                heapZombie = NULL;      
-            } else {
-                std::cout << "\nNo heap zombie exists yet!\n";
+        getline(std::cin, line);
+        std::istringstream iss(line);
+        if (line.empty())
+            std::cout << "\nWrite option number\n";
+        char extra;
+        if ((iss >> choice) && !(iss >> extra) && (choice == 1 || choice == 2 || choice == 3 || choice == 4))
+        {
+            if (choice == 1) {
+                heapZombie = newZombie(name);
+                std::cout << "\nCreated " << name << " on the heap.\n";
             }
+            else if (choice == 2) {
+                randomChump("tiago");
+            }
+            else if (choice == 3) {
+                if (heapZombie != NULL) {
+                    heapZombie->announce(); 
+                    delete heapZombie;      
+                    heapZombie = NULL;      
+                } else {
+                    std::cout << "\nNo heap zombie exists yet!\n";
+                }
+            }
+            else if(choice == 4)
+                std::exit(0);
         }
-        else break;
+        else
+            std::cout << "\nInsert valid number\n";
     }
     return 0;
 }
