@@ -8,7 +8,7 @@ int main(int ac, char **av)
     if (!inFile.is_open())
         return (std::cerr << "Error: could not open file\n", 0);
     std::string content;
-    std::getline(inFile, content, '\0');
+    std::getline(inFile, content, '\0'); // get everything from the test file
     content = replaceContent(content, av[2], av[3]);
     std::ofstream outFile(replaceNameFile(av[1]).c_str());
     outFile << content;

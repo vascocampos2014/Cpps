@@ -3,6 +3,8 @@
 
 #include "Weapon.hpp"
 
+// // human B doesnt needs to have a weapon and you can change the weapon after creation because its a pointer with a setWeapon fucntion
+
 class HumanB{
     private:
         std::string name;
