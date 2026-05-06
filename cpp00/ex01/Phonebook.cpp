@@ -54,73 +54,71 @@ void Phonebook::addContact(void)
 {
     static int totalAdded = 0;
     int slot = totalAdded % 8;
-    
-    std::string firstName, lastName, nickName, phoneNumber, darkestSecret;
+    std::string input;
 
     std::cout << "\nFirst name: ";
-    std::getline(std::cin, firstName);
-    while (firstName.empty())
+    std::getline(std::cin, input);
+    while (input.empty())
     {
         std::cout << "Field cannot be empty. Please enter first name: ";
-        std::getline(std::cin, firstName);
+        std::getline(std::cin, input);
     }
+    _contacts[slot].setFirstName(input);
 
     std::cout << "Last name: ";
-    std::getline(std::cin, lastName);
-    while (lastName.empty())
+    std::getline(std::cin, input);
+    while (input.empty())
     {
         std::cout << "Field cannot be empty. Please enter last name: ";
-        std::getline(std::cin, lastName);
+        std::getline(std::cin, input);
     }
+    _contacts[slot].setLastName(input);
 
     std::cout << "Nickname: ";
-    std::getline(std::cin, nickName);
-    while (nickName.empty())
+    std::getline(std::cin, input);
+    while (input.empty())
     {
         std::cout << "Field cannot be empty. Please enter nickname: ";
-        std::getline(std::cin, nickName);
+        std::getline(std::cin, input);
     }
+    _contacts[slot].setNickName(input);
 
     while (1)
     {
         std::cout << "Phone number (9 digits): ";
-        std::getline(std::cin, phoneNumber);
+        std::getline(std::cin, input);
         
-        if (phoneNumber.empty())
+        if (input.empty())
         {
             std::cout << "Invalid phone number. Please enter exactly 9 digits." << std::endl;
             continue;
         }
         bool allDigits = true;
-        for (std::string::size_type i = 0; i < phoneNumber.length(); ++i)
+        for (std::string::size_type i = 0; i < input.length(); ++i)
         {
-            if (!std::isdigit(static_cast<unsigned char>(phoneNumber[i])))
+            if (!std::isdigit(static_cast<unsigned char>(input[i])))
             {
                 allDigits = false;
                 break;
             }
         }
         
-        if (allDigits && phoneNumber.length() == 9)
+        if (allDigits && input.length() == 9)
         {
+            _contacts[slot].setPhoneNumber(input);
             break;
         }
         std::cout << "Invalid phone number. Please enter exactly 9 digits." << std::endl;
     }
 
     std::cout << "Darkest secret: ";
-    std::getline(std::cin, darkestSecret);
-    while (darkestSecret.empty())
+    std::getline(std::cin, input);
+    while (input.empty())
     {
         std::cout << "Field cannot be empty. Please enter darkest secret: ";
-        std::getline(std::cin, darkestSecret);
+        std::getline(std::cin, input);
     }
-
-    _contacts[slot].setFirstName(firstName);
-    _contacts[slot].setLastName(lastName);
-    _contacts[slot].setNickName(nickName);
-    _contacts[slot].setPhoneNumber(phoneNumber);
-    _contacts[slot].setDarkestSecret(darkestSecret);
+    _contacts[slot].setDarkestSecret(input);
 
     totalAdded++;
     if (_index < 8)
