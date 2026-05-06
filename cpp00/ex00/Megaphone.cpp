@@ -6,7 +6,7 @@ int capitalize(char *s)
     while(s[i])
     {
         if (s[i] >= 97 && s[i] <= 122)
-            std::cout << (char)(s[i] - 32);
+            std::cout << static_cast<char>(std::toupper(static_cast<unsigned char>(s[i])));
         else
             std::cout << s[i];
         i++;
@@ -34,5 +34,5 @@ int main(int argc, char **argv)
         i++;
     }
     std::cout << std::endl;
-    return(1);
+    return(0);
 }

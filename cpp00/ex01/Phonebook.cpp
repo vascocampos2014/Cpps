@@ -1,187 +1,176 @@
 #include "Phonebook.hpp"
 #include <limits>
-#include <algorithm>
 #include <cctype>
-#include <sstream>
 
-// operador >> extrai a data(token) de uma variavel para outra. so pode ser usado com cin ou string streams types.
-/*
-por exemplo:
-std::string input;
-cin >> input; "input foi 123"
-std::istringstream iss(input);
-std::string line;
-iss >> line; "line agr é 123 e input nao tem nada";
-*/
-
-int menu()
+Phonebook::Phonebook() : _index(0)
 {
-    int choice = 0;
-    std::string line;
+}
 
-    std::cout << "\nYOUR PHONEBOOK\n\n[1] ADD CONTACT\n[2] SEARCH CONTACT\n[3] EXIT\n";
+Phonebook::~Phonebook()
+{
+}
+
+std::string Phonebook::getCommand(void) const
+{
+    std::string command;
+
+    std::cout << "\nYOUR PHONEBOOK\n\n[ADD] Add a contact\n[SEARCH] Search a contact\n[EXIT] Exit\n";
     while (1)
     {
-        std::cout << "\nType your Operation:";
-        if (!std::getline(std::cin, line))
+        std::cout << "\nType your Operation: ";
+        if (!std::getline(std::cin, command))
             std::exit(0);
-        std::istringstream iss(line);
-        char extra;
-        if ((iss >> choice) && !(iss >> extra) && (choice == 1 || choice == 2 || choice == 3))
+        if (command == "ADD" || command == "SEARCH" || command == "EXIT")
             break;
-        std::cout << "\nOperation doesnt exist.";
+        std::cout << "Operation doesn't exist.";
     }
-    return(choice);
+    return command;
 }
 
-int AddContact(Phonebook &phonebook)
-{
-    static int total_added = 0;
-    int slot = total_added % 8;
-
-    std::cout << "\nFirst name:";
-    std::getline(std::cin, phonebook.contacts[slot].FirstName);
-    while (phonebook.contacts[slot].FirstName.empty())
-    {
-        std::cout << "\nField cannot be empty. Please enter first name: ";
-        std::getline(std::cin, phonebook.contacts[slot].FirstName);
-    }
-
-    std::cout << "\nLast name:";
-    std::getline(std::cin, phonebook.contacts[slot].LastName);
-    while (phonebook.contacts[slot].LastName.empty())
-    {
-        std::cout << "\nField cannot be empty. Please enter last name: ";
-        std::getline(std::cin, phonebook.contacts[slot].LastName);
-    }
-
-    std::cout << "\nNickname:";
-    std::getline(std::cin, phonebook.contacts[slot].NickName);
-    while (phonebook.contacts[slot].NickName.empty())
-    {
-        std::cout << "\nField cannot be empty. Please enter nickname: ";
-        std::getline(std::cin, phonebook.contacts[slot].NickName);
-    }
-
-    while (1)
-    {
-        std::cout << "\nPhone number:";
-        std::string num;
-        std::getline(std::cin, num);
-        
-        if (num.empty())
-        {
-            std::cout << "Invalid phone number. Please enter exactly 9 digits." << std::endl;
-            continue;
-        }
-        bool all_digits = true;
-        for (std::string::size_type i = 0; i < num.length(); ++i)
-        {
-            if (!std::isdigit(static_cast<unsigned char>(num[i])))
-            {
-                all_digits = false;
-                break;
-            }
-        }
-        
-        if (all_digits && num.length() == 9)
-        {
-            phonebook.contacts[slot].PhoneNumber = num;
-            break;
-        }
-        std::cout << "Invalid phone number. Please enter exactly 9 digits." << std::endl;
-    }
-
-    std::cout << "\nDarkest secret:";
-    std::getline(std::cin, phonebook.contacts[slot].DarkestSecret);
-    while (phonebook.contacts[slot].DarkestSecret.empty())
-    {
-        std::cout << "\nField cannot be empty. Please enter darkest secret: ";
-        std::getline(std::cin, phonebook.contacts[slot].DarkestSecret);
-    }
-
-    total_added++;
-    if (phonebook.index < 8)
-        phonebook.index++;
-
-    std::cout << "Contact added successfully" << std::endl;
-    return (1);
-}
-
-std::string truncateString(std::string str, int width)
+std::string Phonebook::truncateString(std::string str, int width) const
 {
     if (str.length() > (unsigned int)width)
         return str.substr(0, width - 1) + ".";
     return str;
 }
 
-int SearchPhonebook(Phonebook phonebook)
+void Phonebook::run(void)
 {
-    if (phonebook.index == 0)
+    std::string command;
+
+    while (1)
+    {
+        command = getCommand();
+        if (command == "ADD")
+            addContact();
+        else if (command == "SEARCH")
+            searchContact();
+        else if (command == "EXIT")
+            std::exit(0);
+    }
+}
+
+void Phonebook::addContact(void)
+{
+    static int totalAdded = 0;
+    int slot = totalAdded % 8;
+    
+    std::string firstName, lastName, nickName, phoneNumber, darkestSecret;
+
+    std::cout << "\nFirst name: ";
+    std::getline(std::cin, firstName);
+    while (firstName.empty())
+    {
+        std::cout << "Field cannot be empty. Please enter first name: ";
+        std::getline(std::cin, firstName);
+    }
+
+    std::cout << "Last name: ";
+    std::getline(std::cin, lastName);
+    while (lastName.empty())
+    {
+        std::cout << "Field cannot be empty. Please enter last name: ";
+        std::getline(std::cin, lastName);
+    }
+
+    std::cout << "Nickname: ";
+    std::getline(std::cin, nickName);
+    while (nickName.empty())
+    {
+        std::cout << "Field cannot be empty. Please enter nickname: ";
+        std::getline(std::cin, nickName);
+    }
+
+    while (1)
+    {
+        std::cout << "Phone number (9 digits): ";
+        std::getline(std::cin, phoneNumber);
+        
+        if (phoneNumber.empty())
+        {
+            std::cout << "Invalid phone number. Please enter exactly 9 digits." << std::endl;
+            continue;
+        }
+        bool allDigits = true;
+        for (std::string::size_type i = 0; i < phoneNumber.length(); ++i)
+        {
+            if (!std::isdigit(static_cast<unsigned char>(phoneNumber[i])))
+            {
+                allDigits = false;
+                break;
+            }
+        }
+        
+        if (allDigits && phoneNumber.length() == 9)
+        {
+            break;
+        }
+        std::cout << "Invalid phone number. Please enter exactly 9 digits." << std::endl;
+    }
+
+    std::cout << "Darkest secret: ";
+    std::getline(std::cin, darkestSecret);
+    while (darkestSecret.empty())
+    {
+        std::cout << "Field cannot be empty. Please enter darkest secret: ";
+        std::getline(std::cin, darkestSecret);
+    }
+
+    _contacts[slot].setFirstName(firstName);
+    _contacts[slot].setLastName(lastName);
+    _contacts[slot].setNickName(nickName);
+    _contacts[slot].setPhoneNumber(phoneNumber);
+    _contacts[slot].setDarkestSecret(darkestSecret);
+
+    totalAdded++;
+    if (_index < 8)
+        _index++;
+
+    std::cout << "Contact added successfully" << std::endl;
+}
+
+void Phonebook::searchContact(void)
+{
+    if (_index == 0)
     {
         std::cout << "No contacts saved." << std::endl;
-        return(0);
+        return;
     }
 
     std::cout << "|     INDEX|FIRST NAME| LAST NAME|  NICKNAME|" << std::endl;
 
     int i = 0;
-    while(i < phonebook.index)
+    while(i < _index)
     {
         std::cout << "|" << std::setw(10) << std::right << (i + 1);
-        std::cout << "|" << std::setw(10) << std::right << truncateString(phonebook.contacts[i].FirstName, 10);
-        std::cout << "|" << std::setw(10) << std::right << truncateString(phonebook.contacts[i].LastName, 10);
-        std::cout << "|" << std::setw(10) << std::right << truncateString(phonebook.contacts[i].NickName, 10);
+        std::cout << "|" << std::setw(10) << std::right << truncateString(_contacts[i].getFirstName(), 10);
+        std::cout << "|" << std::setw(10) << std::right << truncateString(_contacts[i].getLastName(), 10);
+        std::cout << "|" << std::setw(10) << std::right << truncateString(_contacts[i].getNickName(), 10);
         std::cout << "|" << std::endl;
         i++;
     }
 
-    int index_to_display = -1;
+    int indexToDisplay = -1;
     std::cout << "\nEnter contact index to display: ";
-    if (!(std::cin >> index_to_display))
+    if (!(std::cin >> indexToDisplay))
     {
         std::cin.clear();
-        //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << "Invalid index." << std::endl;
-        return(0);
+        return;
     }
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    if (index_to_display < 1 || index_to_display > phonebook.index)
+    if (indexToDisplay < 1 || indexToDisplay > _index)
     {
         std::cout << "Invalid index." << std::endl;
-        return(0);
+        return;
     }
 
-    int contact_idx = index_to_display - 1;
-    std::cout << "\n--- Contact #" << index_to_display << " ---" << std::endl;
-    std::cout << "First Name: " << phonebook.contacts[contact_idx].FirstName << std::endl;
-    std::cout << "Last Name: " << phonebook.contacts[contact_idx].LastName << std::endl;
-    std::cout << "Nickname: " << phonebook.contacts[contact_idx].NickName << std::endl;
-    std::cout << "Phone Number: " << phonebook.contacts[contact_idx].PhoneNumber << std::endl;
-    std::cout << "Darkest Secret: " << phonebook.contacts[contact_idx].DarkestSecret << std::endl;
-
-    return(0);
-}
-
-void Exit()
-{
-    std::exit(0);
-}
-
-int main()
-{
-    int choice = 0;
-    Phonebook phonebook;
-    phonebook.index = 0;
-    while(1)
-    {
-        choice = menu();
-        if(choice == 1)
-            AddContact(phonebook);
-        if(choice == 2)
-            SearchPhonebook(phonebook);
-        if(choice == 3)
-            Exit();
-    }
-    return(0);
+    int contactIdx = indexToDisplay - 1;
+    std::cout << "\n--- Contact #" << indexToDisplay << " ---" << std::endl;
+    std::cout << "First Name: " << _contacts[contactIdx].getFirstName() << std::endl;
+    std::cout << "Last Name: " << _contacts[contactIdx].getLastName() << std::endl;
+    std::cout << "Nickname: " << _contacts[contactIdx].getNickName() << std::endl;
+    std::cout << "Phone Number: " << _contacts[contactIdx].getPhoneNumber() << std::endl;
+    std::cout << "Darkest Secret: " << _contacts[contactIdx].getDarkestSecret() << std::endl;
 }
