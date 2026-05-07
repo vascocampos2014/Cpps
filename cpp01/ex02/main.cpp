@@ -15,5 +15,5 @@ int main()
     std::cout << "Data of Text: " << Text << std::endl;
     std::cout << "Data of PointerToText: " << *PointerToText << std::endl;
     std::cout << "Data of RefToText: " << RefToText << std::endl;
-    return(1);
+    return (0);
 }
