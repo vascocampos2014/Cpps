@@ -1,7 +1,8 @@
+#ifndef ZOMBIE_HPP
+#define ZOMBIE_HPP
+
 #include <iostream>
 #include <string>
-#include <cstdlib>
-#include <iomanip>
 
 class Zombie
 {
@@ -12,3 +13,5 @@ class Zombie
         ~Zombie();
         void announce( void );
 };
+
+#endif

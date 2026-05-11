@@ -1,4 +1,6 @@
 #include "Zombie.hpp"
+#include <sstream>
+#include <cstdlib>
 
 int main()
 {
@@ -56,6 +58,6 @@ int main()
             std::cout << "Invalid choice type a number 1-3\n";
     }
     if(NewHorde != NULL)
-        delete[] NewHorde;
-    return(1);
+        delete[] NewHorde; // clears the memory in the array and calls destrucotors for every obj
+    return (0);
 }

@@ -12,5 +12,5 @@ int main(int ac, char **av)
     content = replaceContent(content, av[2], av[3]);
     std::ofstream outFile(replaceNameFile(av[1]).c_str());
     outFile << content;
-    return(1);
+    return (0);
 }

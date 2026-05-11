@@ -34,7 +34,7 @@ int choices()
             else if (choice == 3) {
                 if (heapZombie != NULL) {
                     heapZombie->announce(); 
-                    delete heapZombie;      
+                    delete heapZombie;   // delete clears the memory in the heap and calls the objs destructor   
                     heapZombie = NULL;      
                 } else {
                     std::cout << "\nNo heap zombie exists yet!\n";
