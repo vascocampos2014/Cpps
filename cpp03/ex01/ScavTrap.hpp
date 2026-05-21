@@ -3,8 +3,9 @@
 
 #include "ClapTrap.hpp"
 
-class ScavTrap : public Claptrap{
+class ScavTrap : public ClapTrap{ //heranca publica: scavTrap herda todos os membros publicos/protected de clap
     public:
+        ScavTrap();
         ScavTrap(std::string name);
         ScavTrap(const ScavTrap& copy);
         ScavTrap& operator=(const ScavTrap& copy);

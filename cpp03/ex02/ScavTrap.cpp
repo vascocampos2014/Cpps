@@ -1,29 +1,37 @@
-#include "ScapTrap.hpp"
+#include "ScavTrap.hpp"
 
-ScavTrap::ScavTrap(std::string name) : Claptrap(name)
+ScavTrap::ScavTrap() : ClapTrap()
 {
-    std::cout << "Scavtrap default constructor called\n";
-    this->AD = 20;
+    std::cout << "ScavTrap default constructor called" << std::endl;
     this->HP = 100;
     this->EP = 50;
+    this->AD = 20;
 }
 
-ScavTrap::~ScavTrap() 
+ScavTrap::ScavTrap(std::string name) : ClapTrap(name) //chama o construtor da classe pai antes de executar o proprio
 {
-    std::cout << "Scavtrap destructor called\n";
+    std::cout << "ScavTrap constructor called" << std::endl;
+    this->HP = 100;
+    this->EP = 50;
+    this->AD = 20;
+}
+
+ScavTrap::~ScavTrap()
+{
+    std::cout << "ScavTrap destructor called" << std::endl;
 }
 
 ScavTrap& ScavTrap::operator=(const ScavTrap& copy)
 {
-    std::cout << "Scavtrap copy assigment called\n";
+    std::cout << "ScavTrap copy assignment called" << std::endl;
     if (this != &copy)
-        Claptrap::operator=(copy);
-    return(*this);
+        ClapTrap::operator=(copy); //chama o operator= da classe pai para copiar os atributos herdados
+    return (*this);
 }
 
-ScavTrap::ScavTrap(const ScavTrap& copy) : Claptrap(copy)
+ScavTrap::ScavTrap(const ScavTrap& copy) : ClapTrap(copy) //passa o objeto ao copy constructor da classe pai
 {
-    std::cout << "Scavtrap copy constructor called\n";
+    std::cout << "ScavTrap copy constructor called" << std::endl;
 }
 
 void ScavTrap::attack(const std::string& target)
@@ -45,10 +53,5 @@ void ScavTrap::attack(const std::string& target)
 
 void ScavTrap::guardGate()
 {
-    if (this->HP <= 0)
-    {
-        std::cout << "ScavTrap " << this->Name << " is dead and cannot guard!" << std::endl;
-        return;
-    }
     std::cout << "ScavTrap " << this->Name << " is now in Gate keeper mode!" << std::endl;
 }

@@ -1,29 +1,37 @@
 #include "FragTrap.hpp"
 
-FragTrap::FragTrap(std::string name) : Claptrap(name)
+FragTrap::FragTrap() : ClapTrap()
 {
-    std::cout << "FragTrap default constructor called\n";
-    this->AD = 30;
+    std::cout << "FragTrap default constructor called" << std::endl;
     this->HP = 100;
     this->EP = 100;
+    this->AD = 30;
 }
 
-FragTrap::~FragTrap() 
+FragTrap::FragTrap(std::string name) : ClapTrap(name) //chama o construtor da classe pai antes de executar o proprio
 {
-    std::cout << "FragTrap destructor called\n";
+    std::cout << "FragTrap constructor called" << std::endl;
+    this->HP = 100;
+    this->EP = 100;
+    this->AD = 30;
+}
+
+FragTrap::~FragTrap()
+{
+    std::cout << "FragTrap destructor called" << std::endl;
 }
 
 FragTrap& FragTrap::operator=(const FragTrap& copy)
 {
-    std::cout << "FragTrap copy assigment called\n";
+    std::cout << "FragTrap copy assignment called" << std::endl;
     if (this != &copy)
-        Claptrap::operator=(copy);
-    return(*this);
+        ClapTrap::operator=(copy); //chama o operator= da classe pai para copiar os atributos herdados
+    return (*this);
 }
 
-FragTrap::FragTrap(const FragTrap& copy) : Claptrap(copy)
+FragTrap::FragTrap(const FragTrap& copy) : ClapTrap(copy) //passa o objeto ao copy constructor da classe pai
 {
-    std::cout << "FragTrap copy constructor called\n";
+    std::cout << "FragTrap copy constructor called" << std::endl;
 }
 
 void FragTrap::attack(const std::string& target)
@@ -39,11 +47,11 @@ void FragTrap::attack(const std::string& target)
         return;
     }
     this->EP--;
-    std::cout << "FragTrap " << this->Name << " savagely attacks " << target
+    std::cout << "FragTrap " << this->Name << " violently attacks " << target
               << ", causing " << this->AD << " points of damage!" << std::endl;
 }
 
 void FragTrap::highFivesGuys(void)
 {
-    std::cout << "FragTrap is requesting a highfive!\n";
+    std::cout << "FragTrap " << this->Name << " is requesting a high five!" << std::endl;
 }

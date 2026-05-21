@@ -2,24 +2,37 @@
 
 int main()
 {
-    std::cout << "--- Basic usage ---" << std::endl;
-    Claptrap a("Alpha");
+    std::cout << "--- Creating ClapTraps ---" << std::endl;
+    ClapTrap a("Alpha");
+    ClapTrap b("Beta");
+
+    std::cout << "\n--- Combat ---" << std::endl;
     a.attack("Beta");
-    a.takeDamage(5);
-    a.beRepaired(3);
+    b.takeDamage(5);
+    b.beRepaired(3);
+    b.attack("Alpha");
+    a.takeDamage(3);
+
+    std::cout << "\n--- No energy points (attack 10 times to drain EP) ---" << std::endl;
+    for (int i = 0; i < 10; i++)
+        a.attack("Beta");
+    a.attack("Beta");
+    a.beRepaired(5);
 
     std::cout << "\n--- Copy constructor ---" << std::endl;
-    Claptrap b(a);
+    ClapTrap c(b);
+    c.attack("Alpha");
 
     std::cout << "\n--- Copy assignment ---" << std::endl;
-    Claptrap c("Gamma");
-    c = a;
+    ClapTrap d("Delta");
+    d = b;
+    d.attack("Alpha");
 
-    std::cout << "\n--- Death: take lethal damage then try actions ---" << std::endl;
-    a.takeDamage(100);
-    a.beRepaired(5);
-    a.attack("target");
+    std::cout << "\n--- Death ---" << std::endl;
+    b.takeDamage(999);
+    b.attack("Alpha");
+    b.beRepaired(10);
 
-    std::cout << "\n--- Destructors ---" << std::endl;
+    std::cout << "\n--- Destructors (reverse order of creation) ---" << std::endl;
     return 0;
 }
