@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ClapTrap.hpp                                       :+:      :+:    :+:   */
+/*   Brain.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaires-m <vaires-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/21 22:07:11 by vaires-m          #+#    #+#             */
-/*   Updated: 2026/05/21 22:07:12 by vaires-m         ###   ########.fr       */
+/*   Created: 2026/05/21 22:06:25 by vaires-m          #+#    #+#             */
+/*   Updated: 2026/05/21 22:06:26 by vaires-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLAPTRAP_HPP
-#define CLAPTRAP_HPP
+#ifndef BRAIN_HPP
+#define BRAIN_HPP
 
 #include <iostream>
 #include <string>
 
-class ClapTrap{
-    private:
-        std::string Name;
-        int HP;
-        int EP;
-        int AD;
-
+class Brain {
     public:
-        ClapTrap();
-        ClapTrap(std::string name);
-        ClapTrap(const ClapTrap& copy);
-        ClapTrap& operator=(const ClapTrap& copy);
-        ~ClapTrap();
-        void attack(const std::string& target);
-        void takeDamage(unsigned int amount);
-        void beRepaired(unsigned int amount);
+        std::string ideas[100];
+
+        Brain();
+        Brain(const Brain& copy);
+        Brain& operator=(const Brain& copy);
+        ~Brain();
 };
 
 #endif
