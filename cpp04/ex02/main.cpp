@@ -6,7 +6,7 @@
 /*   By: vaires-m <vaires-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 22:06:51 by vaires-m          #+#    #+#             */
-/*   Updated: 2026/05/21 22:06:52 by vaires-m         ###   ########.fr       */
+/*   Updated: 2026/05/22 14:19:18 by vaires-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main()
     //Animal a; //nao compila: Animal e agora abstrata, nao pode ser instanciada
 
     std::cout << "--- Array of 10 Animals (5 Dogs, 5 Cats) ---" << std::endl;
-    const Animal* animals[10];
+    const Animal* animals[10]; // array de 10 ponteiros para Animal (polimorfismo)
     for (int i = 0; i < 5; i++)
         animals[i] = new Dog();
     for (int i = 5; i < 10; i++)

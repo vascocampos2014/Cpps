@@ -6,7 +6,7 @@
 /*   By: vaires-m <vaires-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 22:06:03 by vaires-m          #+#    #+#             */
-/*   Updated: 2026/05/21 22:06:04 by vaires-m         ###   ########.fr       */
+/*   Updated: 2026/05/22 14:14:44 by vaires-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int main()
     const Animal* meta = new Animal();
     const Animal* j = new Dog();
     const Animal* i = new Cat();
+    
     std::cout << j->getType() << std::endl;
     std::cout << i->getType() << std::endl;
-    i->makeSound(); //calls Cat's makeSound via virtual dispatch
-    j->makeSound(); //calls Dog's makeSound via virtual dispatch
+    i->makeSound(); //calls Cats makeSound via virtual dispatch
+    j->makeSound(); //calls Dogs makeSound via virtual dispatch
     meta->makeSound();
     delete meta;
     delete j;
@@ -33,7 +34,7 @@ int main()
     const WrongAnimal* wa = new WrongAnimal();
     const WrongAnimal* wc = new WrongCat();
     std::cout << wc->getType() << std::endl;
-    wc->makeSound(); //calls WrongAnimal's makeSound, NOT WrongCat's
+    wc->makeSound(); //calls WrongAnimal's makeSound, nao WrongCat, porque nao e virtual
     wa->makeSound();
     delete wa;
     delete wc;
