@@ -13,19 +13,19 @@ void swap(T& target1, T& target2)
 }
 
 template <typename T>
-T max(T target1, T target2)
+const T& max(const T& target1, const T& target2)
 {
     if (target1 > target2)
-        return(target1);
-    return(target2);
+        return target1;
+    return target2;
 }
 
 template <typename T>
-T min(T target1, T target2)
+const T& min(const T& target1, const T& target2)
 {
     if (target1 < target2)
-        return(target1);
-    return(target2);
+        return target1;
+    return target2;
 }
 
 #endif
